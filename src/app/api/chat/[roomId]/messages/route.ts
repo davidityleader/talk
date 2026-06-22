@@ -45,6 +45,8 @@ export async function GET(_req: Request, { params }: RouteContext) {
         auth.room.sessionAId === auth.me.id
           ? auth.room.sessionBId
           : auth.room.sessionAId,
+      createdAt: auth.room.createdAt,
+      closedAt: auth.room.closedAt,
     },
   });
 }

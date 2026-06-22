@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent } from "@/components/ui/card";
+import { PasscodeShare } from "@/components/share/PasscodeShare";
 import { cn } from "@/lib/utils";
 import {
   matchSchema,
@@ -29,6 +30,7 @@ export function HomeForm() {
     control,
     handleSubmit,
     register,
+    watch,
     formState: { errors },
   } = useForm<MatchFormValues>({
     resolver: zodResolver(matchSchema),
@@ -240,6 +242,7 @@ export function HomeForm() {
                   {errors.passcode.message}
                 </p>
               )}
+              <PasscodeShare passcode={(watch("passcode") ?? "").trim()} />
             </div>
           </CardContent>
         </Card>

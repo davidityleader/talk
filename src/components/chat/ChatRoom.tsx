@@ -18,6 +18,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { MessageBubble } from "./MessageBubble";
 import { MessageInput } from "./MessageInput";
+import { EndOfChatShare } from "@/components/share/EndOfChatShare";
 import { createPusherClient, PUSHER_EVENTS, roomChannel } from "@/lib/pusher";
 
 interface Msg {
@@ -38,6 +39,7 @@ export function ChatRoomView({ roomId }: Props) {
   const [meId, setMeId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [partnerLeft, setPartnerLeft] = useState(false);
+  const [roomStartedAt, setRoomStartedAt] = useState<string | null>(null);
   const [confirmLeave, setConfirmLeave] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
   const [reportReason, setReportReason] = useState("");
@@ -62,6 +64,7 @@ export function ChatRoomView({ roomId }: Props) {
         if (cancelled) return;
         setMeId(data.room.meId);
         setMessages(data.messages);
+        if (data.room.createdAt) setRoomStartedAt(data.room.createdAt);
         if (data.room.status === "CLOSED") setPartnerLeft(true);
       } finally {
         if (!cancelled) setLoading(false);
@@ -257,21 +260,17 @@ export function ChatRoomView({ roomId }: Props) {
           </AnimatePresence>
 
           {partnerLeft && (
-            <motion.div
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-6 rounded-xl border border-dashed bg-white p-4 text-center"
-            >
-              <p className="text-sm text-muted-foreground">
-                這段聊天已經結束了，要不要繼續找下一位？
-              </p>
-              <Button
-                className="mt-3 rounded-full"
-                onClick={() => router.replace("/")}
-              >
-                找下一個
-              </Button>
-            </motion.div>
+            <EndOfChatShare
+              durationSec={
+                roomStartedAt
+                  ? Math.floor(
+                      (Date.now() - new Date(roomStartedAt).getTime()) / 1000
+                    )
+                  : 0
+              }
+              messageCount={messages.length}
+              onNext={() => router.replace("/")}
+            />
           )}
         </div>
       </div>

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@/components/Analytics";
 import {
   SITE_URL,
   SITE_NAME,
@@ -100,6 +101,7 @@ export default function RootLayout({
             },
           }}
         />
+        <Analytics />
       </body>
     </html>
   );
