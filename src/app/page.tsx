@@ -1,20 +1,26 @@
 import Link from "next/link";
 import { HomeForm } from "@/components/home/HomeForm";
+import { Logo } from "@/components/Logo";
 
 export default function HomePage() {
   return (
     <main className="min-h-screen knock-gradient">
       <div className="mx-auto max-w-xl px-4 pb-16 pt-10 sm:pt-16">
         <header className="mb-8 text-center">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/70 px-3 py-1 text-xs font-medium text-knock-700 shadow-sm backdrop-blur">
-            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-knock-500" />
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/70 px-3 py-1 text-xs font-medium text-rose-700 shadow-sm backdrop-blur">
+            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-rose-500" />
             匿名 · 即時 · 不留紀錄
           </div>
-          <h1 className="bg-gradient-to-r from-knock-600 to-amber-500 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl">
-            敲敲看
-          </h1>
+
+          <div className="flex flex-col items-center gap-3">
+            <Logo size={72} />
+            <h1 className="bg-gradient-to-r from-rose-500 via-rose-500 to-orange-500 bg-clip-text text-5xl font-extrabold tracking-tight text-transparent sm:text-6xl">
+              約一下
+            </h1>
+          </div>
+
           <p className="mt-3 text-base text-muted-foreground sm:text-lg">
-            讓我們來找個人陪你聊聊天
+            找個有緣人，輕鬆聊一下 ❤️
           </p>
         </header>
 

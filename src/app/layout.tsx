@@ -3,16 +3,16 @@ import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "敲敲看 Knock Chat - 匿名陌生人聊天",
-  description: "讓我們來找個人陪你聊聊天 - 隨機配對、匿名安心、即時聊天。",
-  keywords: ["匿名聊天", "陌生人聊天", "隨機配對", "Knock"],
+  title: "約一下 - 找個有緣人，匿名聊一下",
+  description: "約一下，找個有緣人陪你聊聊天 - 隨機配對、匿名安心、即時聊天。",
+  keywords: ["約一下", "匿名聊天", "陌生人聊天", "隨機配對"],
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#f97316",
+  themeColor: "#f43f5e",
 };
 
 export default function RootLayout({
