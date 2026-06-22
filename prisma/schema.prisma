@@ -1,0 +1,118 @@
+// Prisma schema for knock-chat
+// 匿名陌生人配對聊天 - 全部以 Session 為核心，不需要真實註冊
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 性別
+enum Gender {
+  MALE
+  FEMALE
+  UNDISCLOSED
+}
+
+// 配對偏好（想找的對象）
+enum PreferGender {
+  MALE
+  FEMALE
+  ANY
+}
+
+// 匿名使用者狀態
+enum SessionStatus {
+  IDLE       // 剛進入網站
+  WAITING    // 等待配對中
+  MATCHED    // 配對成功，在聊天中
+  LEFT       // 已離開
+}
+
+// 房間狀態
+enum RoomStatus {
+  ACTIVE
+  CLOSED
+}
+
+// 匿名 Session（以 cookie 中的 sessionId 對應）
+model Session {
+  id            String        @id @default(cuid())
+  gender        Gender        @default(UNDISCLOSED)
+  preferGender  PreferGender  @default(ANY)
+  topics        String[]      // 話題標籤，例如 ["生活", "感情"]
+  passcode      String?       // 暗號（精準配對）
+  status        SessionStatus @default(IDLE)
+  lastActiveAt  DateTime      @default(now())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // 目前所在房間（單一房間制；要找下一個會建立新的房間 + 新 session 也可，但這裡保留欄位）
+  currentRoomId String?
+  currentRoom   ChatRoom?     @relation("CurrentRoom", fields: [currentRoomId], references: [id])
+
+  // 與我有關的訊息
+  messages      Message[]
+  reports       Report[]      @relation("Reporter")
+  reportedAt    Report[]      @relation("Reported")
+
+  // 我作為 A 或 B 的房間
+  roomsAsA      ChatRoom[]    @relation("RoomA")
+  roomsAsB      ChatRoom[]    @relation("RoomB")
+
+  @@index([status, lastActiveAt])
+  @@index([passcode, status])
+}
+
+model ChatRoom {
+  id          String      @id @default(cuid())
+  status      RoomStatus  @default(ACTIVE)
+
+  sessionAId  String
+  sessionA    Session     @relation("RoomA", fields: [sessionAId], references: [id])
+  sessionBId  String
+  sessionB    Session     @relation("RoomB", fields: [sessionBId], references: [id])
+
+  messages    Message[]
+  reports     Report[]
+  sessions    Session[]   @relation("CurrentRoom")
+
+  createdAt   DateTime    @default(now())
+  closedAt    DateTime?
+  closedById  String?
+
+  @@index([status])
+  @@index([sessionAId])
+  @@index([sessionBId])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  roomId    String
+  room      ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  senderId  String
+  sender    Session  @relation(fields: [senderId], references: [id])
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([roomId, createdAt])
+}
+
+// 舉報
+model Report {
+  id          String   @id @default(cuid())
+  roomId      String?
+  room        ChatRoom? @relation(fields: [roomId], references: [id])
+  reporterId  String
+  reporter    Session  @relation("Reporter", fields: [reporterId], references: [id])
+  reportedId  String
+  reported    Session  @relation("Reported", fields: [reportedId], references: [id])
+  reason      String
+  detail      String?
+  createdAt   DateTime @default(now())
+
+  @@index([reportedId])
+}
