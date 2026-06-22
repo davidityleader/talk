@@ -68,27 +68,27 @@ export function WaitingView() {
   const ss = String(seconds % 60).padStart(2, "0");
 
   return (
-    <main className="min-h-screen knock-gradient flex items-center justify-center px-6">
+    <main className="min-h-screen bg-white flex items-center justify-center px-6">
       <div className="w-full max-w-sm text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="relative mx-auto mb-10 flex h-32 w-32 items-center justify-center rounded-full bg-white shadow-lg"
+          className="relative mx-auto mb-10 flex h-32 w-32 items-center justify-center rounded-full bg-brand-50 shadow-md"
         >
-          <span className="absolute inset-0 rounded-full bg-knock-400/40 animate-pulse-ring" />
+          <span className="absolute inset-0 rounded-full bg-brand-400/40 animate-pulse-ring" />
           <span
-            className="absolute inset-0 rounded-full bg-knock-400/30 animate-pulse-ring"
+            className="absolute inset-0 rounded-full bg-brand-400/30 animate-pulse-ring"
             style={{ animationDelay: "0.5s" }}
           />
-          <Loader2 className="h-12 w-12 animate-spin text-knock-500" />
+          <Loader2 className="h-12 w-12 animate-spin text-brand-500" />
         </motion.div>
 
         <h2 className="text-2xl font-bold text-foreground">正在尋找有緣人</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          我們正在替你尋找一個聊得來的對象，請稍候...
+          我們正在替你尋找想做同一件事的人，請稍候...
         </p>
 
-        <div className="mt-8 text-3xl font-mono font-bold tabular-nums tracking-wider">
+        <div className="mt-8 text-3xl font-mono font-bold tabular-nums tracking-wider text-foreground">
           {mm}:{ss}
         </div>
 

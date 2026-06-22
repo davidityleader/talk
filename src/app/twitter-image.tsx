@@ -1,8 +1,8 @@
-// Twitter 分享卡片圖（與 OG 邏輯共用）
+// Twitter 分享卡片圖
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "約一下 - 找個有緣人，匿名聊一下";
+export const alt = "隨意約 randate.tw - 找個有緣人，一起去做想做的事";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -17,17 +17,16 @@ export default async function TwitterImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background:
-            "linear-gradient(135deg, #ffedd5 0%, #ffe4e6 50%, #fef3c7 100%)",
+          background: "#ffffff",
           fontFamily: "sans-serif",
         }}
       >
-        <svg width="220" height="220" viewBox="0 0 64 64" style={{ marginBottom: 30 }}>
+        <svg width="200" height="200" viewBox="0 0 64 64" style={{ marginBottom: 24 }}>
           <defs>
             <linearGradient id="tw-grad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#fb7185" />
-              <stop offset="55%" stopColor="#f43f5e" />
-              <stop offset="100%" stopColor="#f97316" />
+              <stop offset="0%" stopColor="#26d27c" />
+              <stop offset="60%" stopColor="#06c755" />
+              <stop offset="100%" stopColor="#03833a" />
             </linearGradient>
           </defs>
           <path
@@ -38,21 +37,34 @@ export default async function TwitterImage() {
           <circle cx="32" cy="27" r="2.4" fill="white" />
           <circle cx="41" cy="27" r="2.4" fill="white" />
         </svg>
+
         <div
           style={{
-            fontSize: 140,
+            fontSize: 130,
             fontWeight: 900,
-            background: "linear-gradient(90deg, #f43f5e 0%, #f97316 100%)",
-            backgroundClip: "text",
-            color: "transparent",
+            color: "#1f2937",
             letterSpacing: "-0.02em",
-            marginBottom: 10,
+            marginBottom: 6,
           }}
         >
-          約一下
+          隨意約
         </div>
-        <div style={{ fontSize: 36, color: "#78350f", fontWeight: 500 }}>
-          找個有緣人，輕鬆聊一下
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            fontSize: 42,
+            fontWeight: 800,
+            marginBottom: 16,
+          }}
+        >
+          <span style={{ color: "#1f2937" }}>randate</span>
+          <span style={{ color: "#06c755" }}>.tw</span>
+        </div>
+
+        <div style={{ fontSize: 30, color: "#4b5563", fontWeight: 500 }}>
+          找個有緣人，一起去做想做的事
         </div>
       </div>
     ),

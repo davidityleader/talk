@@ -39,16 +39,21 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        knock: {
-          50: "#fff7ed",
-          100: "#ffedd5",
-          200: "#fed7aa",
-          300: "#fdba74",
-          400: "#fb923c",
-          500: "#f97316",
-          600: "#ea580c",
-          700: "#c2410c",
+        // 主品牌色（青綠，借鑑通訊軟體常用色票）
+        brand: {
+          50: "#e6faf0",
+          100: "#c8f5dc",
+          200: "#92ebbd",
+          300: "#5cdf9c",
+          400: "#26d27c",
+          500: "#06c755",
+          600: "#04a847",
+          700: "#03833a",
+          800: "#02652c",
+          900: "#014a21",
         },
+        // 聊天背景灰
+        chatbg: "#f1f3f4",
       },
       borderRadius: {
         lg: "var(--radius)",

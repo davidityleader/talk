@@ -191,16 +191,16 @@ export function ChatRoomView({ roomId }: Props) {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-knock-500" />
+      <div className="flex min-h-screen items-center justify-center bg-white">
+        <Loader2 className="h-8 w-8 animate-spin text-brand-500" />
       </div>
     );
   }
 
   return (
-    <main className="flex h-[100dvh] flex-col bg-knock-50/30">
+    <main className="flex h-[100dvh] flex-col chat-bg">
       {/* Header */}
-      <header className="flex items-center justify-between border-b bg-white/90 px-3 py-3 backdrop-blur">
+      <header className="flex items-center justify-between border-b border-gray-200 bg-white px-3 py-3 shadow-sm">
         <Button
           variant="ghost"
           size="icon"
@@ -242,8 +242,8 @@ export function ChatRoomView({ roomId }: Props) {
         className="chat-scroll flex-1 overflow-y-auto px-3 py-4"
       >
         <div className="mx-auto max-w-2xl">
-          <div className="mb-4 rounded-xl bg-white/70 px-4 py-3 text-center text-xs text-muted-foreground shadow-sm">
-            你已配對成功！記得友善聊天，避免分享個人隱私 ✨
+          <div className="mb-4 rounded-xl bg-white px-4 py-3 text-center text-xs text-muted-foreground shadow-sm">
+            配對成功！記得友善聊天，避免過早分享個人隱私 ✨
           </div>
           <AnimatePresence initial={false}>
             {messages.map((m) => (

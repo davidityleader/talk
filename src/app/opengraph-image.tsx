@@ -1,9 +1,8 @@
 // 動態產生 1200x630 的 Open Graph 分享圖
-// 任何分享到 Facebook / LINE / Twitter / Discord 都會用這張
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "約一下 - 找個有緣人，匿名聊一下";
+export const alt = "隨意約 randate.tw - 找個有緣人，一起去做想做的事";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -18,8 +17,7 @@ export default async function OpengraphImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background:
-            "linear-gradient(135deg, #ffedd5 0%, #ffe4e6 50%, #fef3c7 100%)",
+          background: "#ffffff",
           fontFamily: "sans-serif",
           position: "relative",
         }}
@@ -30,10 +28,10 @@ export default async function OpengraphImage() {
             position: "absolute",
             top: 80,
             left: 100,
-            width: 120,
-            height: 120,
+            width: 140,
+            height: 140,
             background:
-              "radial-gradient(circle, rgba(251,113,133,0.35) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(6,199,85,0.18) 0%, transparent 70%)",
             borderRadius: 9999,
           }}
         />
@@ -42,26 +40,26 @@ export default async function OpengraphImage() {
             position: "absolute",
             bottom: 100,
             right: 120,
-            width: 180,
-            height: 180,
+            width: 200,
+            height: 200,
             background:
-              "radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(38,210,124,0.18) 0%, transparent 70%)",
             borderRadius: 9999,
           }}
         />
 
         {/* 愛心 Logo */}
         <svg
-          width="220"
-          height="220"
+          width="200"
+          height="200"
           viewBox="0 0 64 64"
-          style={{ marginBottom: 30 }}
+          style={{ marginBottom: 24 }}
         >
           <defs>
             <linearGradient id="og-grad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#fb7185" />
-              <stop offset="55%" stopColor="#f43f5e" />
-              <stop offset="100%" stopColor="#f97316" />
+              <stop offset="0%" stopColor="#26d27c" />
+              <stop offset="60%" stopColor="#06c755" />
+              <stop offset="100%" stopColor="#03833a" />
             </linearGradient>
           </defs>
           <path
@@ -73,47 +71,91 @@ export default async function OpengraphImage() {
           <circle cx="41" cy="27" r="2.4" fill="white" />
         </svg>
 
-        {/* 標題 */}
+        {/* 主標題 */}
         <div
           style={{
-            fontSize: 140,
+            fontSize: 130,
             fontWeight: 900,
-            background: "linear-gradient(90deg, #f43f5e 0%, #f97316 100%)",
-            backgroundClip: "text",
-            color: "transparent",
+            color: "#1f2937",
             letterSpacing: "-0.02em",
-            marginBottom: 10,
+            marginBottom: 6,
           }}
         >
-          約一下
+          隨意約
+        </div>
+
+        {/* 網址 */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            fontSize: 42,
+            fontWeight: 800,
+            marginBottom: 18,
+          }}
+        >
+          <span style={{ color: "#1f2937" }}>randate</span>
+          <span style={{ color: "#06c755" }}>.tw</span>
         </div>
 
         {/* 標語 */}
         <div
           style={{
-            fontSize: 36,
-            color: "#78350f",
+            fontSize: 30,
+            color: "#4b5563",
             fontWeight: 500,
             letterSpacing: "0.02em",
           }}
         >
-          找個有緣人，輕鬆聊一下
+          找個有緣人，一起去做想做的事
         </div>
 
-        {/* 副標 */}
+        {/* 情境徽章 */}
         <div
           style={{
-            marginTop: 24,
+            marginTop: 26,
             display: "flex",
-            gap: 24,
+            gap: 14,
             fontSize: 22,
-            color: "#9f1239",
-            opacity: 0.85,
+            color: "#03833a",
           }}
         >
-          <span>· 匿名</span>
-          <span>· 即時</span>
-          <span>· 免註冊</span>
+          <span
+            style={{
+              background: "#e6faf0",
+              padding: "8px 16px",
+              borderRadius: 999,
+            }}
+          >
+            🍱 一起吃飯
+          </span>
+          <span
+            style={{
+              background: "#e6faf0",
+              padding: "8px 16px",
+              borderRadius: 999,
+            }}
+          >
+            🌃 看夜景
+          </span>
+          <span
+            style={{
+              background: "#e6faf0",
+              padding: "8px 16px",
+              borderRadius: 999,
+            }}
+          >
+            🎤 唱 KTV
+          </span>
+          <span
+            style={{
+              background: "#e6faf0",
+              padding: "8px 16px",
+              borderRadius: 999,
+            }}
+          >
+            🏮 回家過年
+          </span>
         </div>
       </div>
     ),
