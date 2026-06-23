@@ -30,11 +30,22 @@ export async function POST(_req: Request, { params }: RouteContext) {
         where: { id: roomId },
         data: { status: "CLOSED", closedAt: new Date(), closedById: me.id },
       }),
+      // 雙方都標記為 LEFT，並把 currentRoomId 搬到 lastRoomId（用於回顧）
       prisma.session.updateMany({
         where: { id: { in: [room.sessionAId, room.sessionBId] } },
-        data: { status: "LEFT", currentRoomId: null },
+        data: {
+          status: "LEFT",
+          currentRoomId: null,
+          lastRoomId: roomId,
+        },
       }),
     ]);
+  } else {
+    // 房間已經關閉了（對方先按離開），仍記下這是我最後一個聊的房間
+    await prisma.session.update({
+      where: { id: me.id },
+      data: { status: "LEFT", currentRoomId: null, lastRoomId: roomId },
+    });
   }
 
   // 通知房間另一方

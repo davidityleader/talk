@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
   Heart,
   MessageCircle,
@@ -14,12 +15,15 @@ import {
 } from "lucide-react";
 import { HomeForm } from "@/components/home/HomeForm";
 import { Logo } from "@/components/Logo";
+import { ReturnBanner } from "@/components/home/ReturnBanner";
 import {
   WebsiteJsonLd,
   WebApplicationJsonLd,
   FaqJsonLd,
 } from "@/components/JsonLd";
 import { SITE_DESCRIPTION, SITE_TITLE } from "@/lib/seo";
+import { getCurrentSession } from "@/lib/session";
+import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
   title: SITE_TITLE,
@@ -87,7 +91,50 @@ const FAQS = [
   },
 ];
 
-export default function HomePage() {
+// 自動回房 + 上次對話回顧
+async function resumeContext() {
+  const me = await getCurrentSession();
+  if (!me) return { redirectTo: null, lastRoom: null };
+
+  // 還在配對中：跳到等待頁
+  if (me.status === "WAITING") {
+    return { redirectTo: "/waiting" as const, lastRoom: null };
+  }
+
+  // 還在聊天中：驗證房間還 ACTIVE 才跳
+  if (me.status === "MATCHED" && me.currentRoomId) {
+    const room = await prisma.chatRoom.findUnique({
+      where: { id: me.currentRoomId },
+    });
+    if (room && room.status === "ACTIVE") {
+      return { redirectTo: `/chat/${room.id}` as const, lastRoom: null };
+    }
+  }
+
+  // 上次離開不到 24 小時 → 顯示回顧 banner
+  if (me.lastRoomId) {
+    const room = await prisma.chatRoom.findUnique({
+      where: { id: me.lastRoomId },
+    });
+    if (room) {
+      const ref = room.closedAt ?? room.createdAt;
+      const diffMs = Date.now() - new Date(ref).getTime();
+      if (diffMs < 24 * 60 * 60 * 1000) {
+        return {
+          redirectTo: null,
+          lastRoom: { id: room.id, closedAt: room.closedAt },
+        };
+      }
+    }
+  }
+
+  return { redirectTo: null, lastRoom: null };
+}
+
+export default async function HomePage() {
+  const { redirectTo, lastRoom } = await resumeContext();
+  if (redirectTo) redirect(redirectTo);
+
   return (
     <>
       <WebsiteJsonLd />
@@ -112,6 +159,10 @@ export default function HomePage() {
         </nav>
 
         <div className="mx-auto max-w-xl px-4 pb-16 pt-8">
+          {lastRoom && (
+            <ReturnBanner roomId={lastRoom.id} closedAt={lastRoom.closedAt} />
+          )}
+
           {/* Hero */}
           <header className="mb-8 text-center">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700">

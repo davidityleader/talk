@@ -54,6 +54,9 @@ model Session {
   currentRoomId String?
   currentRoom   ChatRoom?     @relation("CurrentRoom", fields: [currentRoomId], references: [id])
 
+  // 最後一個聊過的房間（離開後保留，供 24 小時內回到首頁時顯示「回到上次的對話」）
+  lastRoomId    String?
+
   // 與我有關的訊息
   messages      Message[]
   reports       Report[]      @relation("Reporter")
