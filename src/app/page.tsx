@@ -92,43 +92,49 @@ const FAQS = [
 ];
 
 // 自動回房 + 上次對話回顧
-async function resumeContext() {
-  const me = await getCurrentSession();
-  if (!me) return { redirectTo: null, lastRoom: null };
+// 任何 DB / cookie 錯誤都靜默吞掉，首頁照常顯示（避免整頁 500）
+async function resumeContext(): Promise<{
+  redirectTo: "/waiting" | `/chat/${string}` | null;
+  lastRoom: { id: string; closedAt: Date | null } | null;
+}> {
+  try {
+    const me = await getCurrentSession();
+    if (!me) return { redirectTo: null, lastRoom: null };
 
-  // 還在配對中：跳到等待頁
-  if (me.status === "WAITING") {
-    return { redirectTo: "/waiting" as const, lastRoom: null };
-  }
-
-  // 還在聊天中：驗證房間還 ACTIVE 才跳
-  if (me.status === "MATCHED" && me.currentRoomId) {
-    const room = await prisma.chatRoom.findUnique({
-      where: { id: me.currentRoomId },
-    });
-    if (room && room.status === "ACTIVE") {
-      return { redirectTo: `/chat/${room.id}` as const, lastRoom: null };
+    if (me.status === "WAITING") {
+      return { redirectTo: "/waiting", lastRoom: null };
     }
-  }
 
-  // 上次離開不到 24 小時 → 顯示回顧 banner
-  if (me.lastRoomId) {
-    const room = await prisma.chatRoom.findUnique({
-      where: { id: me.lastRoomId },
-    });
-    if (room) {
-      const ref = room.closedAt ?? room.createdAt;
-      const diffMs = Date.now() - new Date(ref).getTime();
-      if (diffMs < 24 * 60 * 60 * 1000) {
-        return {
-          redirectTo: null,
-          lastRoom: { id: room.id, closedAt: room.closedAt },
-        };
+    if (me.status === "MATCHED" && me.currentRoomId) {
+      const room = await prisma.chatRoom.findUnique({
+        where: { id: me.currentRoomId },
+      });
+      if (room && room.status === "ACTIVE") {
+        return { redirectTo: `/chat/${room.id}`, lastRoom: null };
       }
     }
-  }
 
-  return { redirectTo: null, lastRoom: null };
+    if (me.lastRoomId) {
+      const room = await prisma.chatRoom.findUnique({
+        where: { id: me.lastRoomId },
+      });
+      if (room) {
+        const ref = room.closedAt ?? room.createdAt;
+        const diffMs = Date.now() - new Date(ref).getTime();
+        if (diffMs < 24 * 60 * 60 * 1000) {
+          return {
+            redirectTo: null,
+            lastRoom: { id: room.id, closedAt: room.closedAt },
+          };
+        }
+      }
+    }
+
+    return { redirectTo: null, lastRoom: null };
+  } catch (err) {
+    console.error("[home] resumeContext failed:", err);
+    return { redirectTo: null, lastRoom: null };
+  }
 }
 
 export default async function HomePage() {
