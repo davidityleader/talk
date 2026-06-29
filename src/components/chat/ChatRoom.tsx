@@ -18,6 +18,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { MessageBubble } from "./MessageBubble";
 import { MessageInput } from "./MessageInput";
+import { SafetyBanner } from "./SafetyBanner";
 import { EndOfChatShare } from "@/components/share/EndOfChatShare";
 import { createPusherClient, PUSHER_EVENTS, roomChannel } from "@/lib/pusher";
 
@@ -245,6 +246,7 @@ export function ChatRoomView({ roomId }: Props) {
         className="chat-scroll flex-1 overflow-y-auto px-3 py-4"
       >
         <div className="mx-auto max-w-2xl">
+          <SafetyBanner />
           <div className="mb-4 rounded-xl bg-white px-4 py-3 text-center text-xs text-muted-foreground shadow-sm">
             配對成功！記得友善聊天，避免過早分享個人隱私 ✨
           </div>

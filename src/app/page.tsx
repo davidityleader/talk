@@ -12,6 +12,7 @@ import {
   Flame,
   Film,
   PartyPopper,
+  ArrowRight,
 } from "lucide-react";
 import { HomeForm } from "@/components/home/HomeForm";
 import { Logo } from "@/components/Logo";
@@ -155,12 +156,20 @@ export default async function HomePage() {
               <Logo size={32} />
               <Logo variant="wordmark" />
             </Link>
-            <Link
-              href="#scenarios"
-              className="text-sm font-medium text-muted-foreground transition hover:text-brand-600"
-            >
-              情境玩法
-            </Link>
+            <div className="flex items-center gap-5">
+              <Link
+                href="/guide"
+                className="text-sm font-medium text-muted-foreground transition hover:text-brand-600"
+              >
+                攻略中心
+              </Link>
+              <Link
+                href="#scenarios"
+                className="hidden text-sm font-medium text-muted-foreground transition hover:text-brand-600 sm:block"
+              >
+                情境玩法
+              </Link>
+            </div>
           </div>
         </nav>
 
@@ -266,6 +275,38 @@ export default async function HomePage() {
               都能在 randate.tw 找到願意一起的人。系統依性別、情境與暗號智慧配對，
               聊得來再決定是否實際碰面，把生活的缺角輕鬆補起來。
             </p>
+          </section>
+
+          {/* 女性友善區塊 */}
+          <section
+            className="mt-12 overflow-hidden rounded-2xl border border-rose-200 bg-gradient-to-br from-rose-50 to-pink-50"
+            aria-labelledby="women-friendly-heading"
+          >
+            <div className="p-5">
+              <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-white/80 px-2.5 py-0.5 text-xs font-semibold text-rose-700">
+                <span>💗</span>
+                女性友善
+              </div>
+              <h2
+                id="women-friendly-heading"
+                className="text-lg font-bold text-foreground"
+              >
+                我們認真在意你的安全
+              </h2>
+              <ul className="mt-3 space-y-1.5 text-sm text-rose-900/85">
+                <li>✅ 全程匿名，可隨時離開、一鍵舉報</li>
+                <li>✅ 敏感詞自動過濾、不當對話即時封鎖</li>
+                <li>✅ 聊天結束後房間關閉，不留紀錄</li>
+                <li>🟢 規劃中：女性優先配對、線下見面 checklist 推播</li>
+              </ul>
+              <Link
+                href="/guide/safety-for-women"
+                className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-rose-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-rose-600"
+              >
+                女生必看：見面前的 12 件事
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </section>
 
           {/* FAQ */}
