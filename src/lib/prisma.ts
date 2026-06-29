@@ -17,9 +17,16 @@ declare global {
 }
 
 function createPrisma(): PrismaClient {
-  const connectionString = process.env.DATABASE_URL;
+  // 優先使用 NEON_DATABASE_URL（避開 Vercel × Neon 整合的自動覆寫）
+  // 回退順序：NEON_DATABASE_URL → POSTGRES_PRISMA_URL → DATABASE_URL
+  const connectionString =
+    process.env.NEON_DATABASE_URL ||
+    process.env.POSTGRES_PRISMA_URL ||
+    process.env.DATABASE_URL;
   if (!connectionString) {
-    throw new Error("DATABASE_URL 未設定，請參考 .env.example");
+    throw new Error(
+      "NEON_DATABASE_URL / POSTGRES_PRISMA_URL / DATABASE_URL 三者皆未設定"
+    );
   }
   const adapter = new PrismaNeon({ connectionString });
   return new PrismaClient({ adapter });
