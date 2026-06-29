@@ -5,6 +5,7 @@
 import { useMemo } from "react";
 import { Copy, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SocialShareButtons } from "./SocialShareButtons";
 import { useShare } from "@/hooks/useShare";
 import toast from "react-hot-toast";
 
@@ -71,7 +72,7 @@ export function PasscodeShare({ passcode, siteUrl }: Props) {
           disabled={busy}
         >
           <Share2 className="h-4 w-4" />
-          分享給朋友
+          原生分享
         </Button>
         <Button
           type="button"
@@ -82,6 +83,18 @@ export function PasscodeShare({ passcode, siteUrl }: Props) {
         >
           <Copy className="h-4 w-4" />
         </Button>
+      </div>
+      <div className="mt-3 border-t border-brand-200 pt-3">
+        <p className="mb-2 text-center text-[11px] text-brand-700/70">
+          或直接分享到
+        </p>
+        <SocialShareButtons
+          title="隨意約"
+          text={shareText}
+          url={url}
+          variant="compact"
+          className="justify-center"
+        />
       </div>
     </div>
   );

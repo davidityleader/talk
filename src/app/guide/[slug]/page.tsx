@@ -10,6 +10,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { SocialShareButtons } from "@/components/share/SocialShareButtons";
 import {
   ARTICLES,
   findArticle,
@@ -196,8 +197,21 @@ export default async function ArticlePage({ params }: Props) {
             {article.body()}
           </div>
 
+          {/* 分享 */}
+          <section className="mt-10 rounded-2xl border border-gray-200 bg-gray-50 p-5">
+            <p className="mb-3 text-sm font-semibold text-foreground">
+              覺得有用？分享給朋友
+            </p>
+            <SocialShareButtons
+              title={article.title}
+              text={`${article.title} | 隨意約`}
+              url={`${SITE_URL}/guide/${article.slug}`}
+              variant="full"
+            />
+          </section>
+
           {/* CTA */}
-          <section className="mt-12 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 p-6 text-center text-white">
+          <section className="mt-8 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 p-6 text-center text-white">
             <h3 className="text-lg font-bold">看完想試試嗎？</h3>
             <p className="mt-1 text-sm text-white/85">
               5 秒配對，匿名安心，免註冊

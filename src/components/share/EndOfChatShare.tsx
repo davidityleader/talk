@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { Heart, MessageSquare, Clock, Share2, RotateCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SocialShareButtons } from "./SocialShareButtons";
 import { useShare } from "@/hooks/useShare";
 
 interface Props {
@@ -100,6 +101,20 @@ export function EndOfChatShare({
         </div>
       )}
 
+      {/* 社群分享 */}
+      <div className="border-t border-gray-100 p-3">
+        <p className="mb-2 text-center text-[11px] text-muted-foreground">
+          分享到
+        </p>
+        <SocialShareButtons
+          title="隨意約"
+          text={shareText}
+          url="https://randate.tw"
+          variant="compact"
+          className="justify-center"
+        />
+      </div>
+
       {/* CTAs */}
       <div className="grid grid-cols-2 gap-2 border-t border-gray-100 p-3">
         <Button
@@ -111,7 +126,7 @@ export function EndOfChatShare({
           disabled={busy}
         >
           <Share2 className="h-4 w-4" />
-          分享
+          原生分享
         </Button>
         <Button
           type="button"
